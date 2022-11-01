@@ -14,6 +14,27 @@ jobs:
           go-version: "1.19"
 
       - run: go run main.go --record
+        env:
+          PUBKEY1: ${{ secrets.PUBKEY1 }}
+          PRIKEY1: ${{ secrets.PRIKEY1 }}
+          PUBKEY2: ${{ secrets.PUBKEY2 }}
+          PRIKEY2: ${{ secrets.PRIKEY2 }}
+          PUBKEY3: ${{ secrets.PUBKEY3 }}
+          PRIKEY3: ${{ secrets.PRIKEY3 }}
+          PUBKEY4: ${{ secrets.PUBKEY4 }}
+          PRIKEY4: ${{ secrets.PRIKEY4 }}
+          PUBKEY5: ${{ secrets.PUBKEY5 }}
+          PRIKEY5: ${{ secrets.PRIKEY5 }}
+          PUBKEY6: ${{ secrets.PUBKEY6 }}
+          PRIKEY6: ${{ secrets.PRIKEY6 }}
+          PUBKEY7: ${{ secrets.PUBKEY7 }}
+          PRIKEY7: ${{ secrets.PRIKEY7 }}
+          PUBKEY8: ${{ secrets.PUBKEY8 }}
+          PRIKEY8: ${{ secrets.PRIKEY8 }}
+          PUBKEY9: ${{ secrets.PUBKEY9 }}
+          PRIKEY9: ${{ secrets.PRIKEY9 }}
+          PUBKEY10: ${{ secrets.PUBKEY10 }}
+          PRIKEY10: ${{ secrets.PRIKEY10 }}
 
       - uses: actions-js/push@master
         with:

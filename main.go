@@ -216,7 +216,7 @@ func main() {
 	log.Info("initializing with keys", "public", publicKeys)
 
 	if len(publicKeys) == 0 {
-		log.Info("no keys found, please set env PUBKEY1, PRIMKEY1")
+		log.Info("no keys found, please set env PUBKEY1, PRIKEY1")
 		return
 	}
 	if len(publicKeys) < *threads {
