@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/csv"
 	"flag"
 	"fmt"
 	"math/rand"
@@ -19,6 +20,7 @@ import (
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 	"github.com/icholy/digest"
+	"github.com/wcharczuk/go-chart"
 	"go.uber.org/zap"
 )
 
@@ -202,6 +204,55 @@ func recordCSV(fields ...string) error {
 	return err
 }
 
+func genGraph() error {
+	f, err := os.Open("stats.csv")
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	records, err := csv.NewReader(f).ReadAll()
+	if err != nil {
+		return err
+	}
+	records = records[1:]
+	if len(records) > 24 {
+		records = records[:24]
+	}
+
+	var values []chart.Value
+	for _, record := range records {
+		seconds, _ := strconv.ParseFloat(record[3], 32)
+		values = append(values, chart.Value{
+			Label: record[0][11:13],
+			Value: float64(seconds),
+		})
+	}
+
+	graph := chart.BarChart{
+		Title:      "creation time in 24h",
+		TitleStyle: chart.StyleShow(),
+		XAxis:      chart.StyleShow(),
+		YAxis: chart.YAxis{
+			Name:  "seconds",
+			Style: chart.StyleShow(),
+		},
+		Width:      1280,
+		BarWidth:   1200 / len(values) / 2,
+		BarSpacing: 1200 / len(values) / 2,
+		Bars:       values,
+	}
+
+	graph.BarWidth = graph.GetBarWidth() / 2
+
+	f, err = os.Create("24h.png")
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	return graph.Render(chart.PNG, f)
+}
+
 func main() {
 	flag.Parse()
 	now := time.Now()
@@ -260,6 +311,10 @@ func main() {
 			}
 			if err2 != nil {
 				log.Error(err2, "failed to record csv")
+			}
+			err3 := genGraph()
+			if err3 != nil {
+				log.Error(err3, "failed to generate graph")
 			}
 		}
 		return
