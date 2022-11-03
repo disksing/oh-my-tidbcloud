@@ -237,10 +237,10 @@ func genGraph() error {
 			Name:  "seconds",
 			Style: chart.StyleShow(),
 		},
-		Width:      1280,
-		BarWidth:   1200 / len(values) / 2,
-		BarSpacing: 1200 / len(values) / 2,
-		Bars:       values,
+		Width: 1024,
+		// BarWidth:   1200 / len(values) / 2,
+		// BarSpacing: 1200 / len(values) / 2,
+		Bars: values,
 	}
 
 	graph.BarWidth = graph.GetBarWidth() / 2
