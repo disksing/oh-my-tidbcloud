@@ -217,7 +217,7 @@ func genGraph() error {
 	}
 	records = records[1:]
 	if len(records) > 24 {
-		records = records[:24]
+		records = records[len(records)-24:]
 	}
 
 	var values []chart.Value
